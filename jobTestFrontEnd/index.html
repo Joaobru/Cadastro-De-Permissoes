@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Solution</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="align">
+    <form class="form">
+      <div class="color-style">
+        <nav class="nav-form"></nav>
+        <div class="container">
+          <div class="primary-inputs">
+            <input placeholder="Login" id="user">
+
+            <select id="listSystems" name="options" onchange='handleSystems();'>
+
+            </select>
+          </div>
+
+          <div class="permissions">
+            <h4>Lista de Permissões</h4>
+          </div>
+
+          <div class="listOptions">
+            <ul>
+              
+            </ul>
+          </div>
+        
+          <footer>
+            <button type="button" onclick="selectAll()">Marcar Todos</button>
+            <button type="button" onclick="deselectAll()">Inverter</button>
+            <button type="button" onclick="saveData()">Salvar</button>
+          </footer>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+
+<script>
+
+  async function getSystems() {
+    try {
+      const listSystem = await fetch('http://localhost:3333/listSystem');
+      const dataListSystem = await listSystem.json()
+     
+     showSystems(dataListSystem)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function showSystems(systems) {
+    let output = ''
+
+    for (let system of systems) {
+
+      output += 
+     `<option value="0" selected hidden>Selecione um Sistema</option>
+      <option value='${system.idsystem}'>${system.systemname}</option>`
+
+    }
+    document.querySelector('select').innerHTML = output
+  }
+
+  async function handleSystems() {
+    var box = document.getElementById('listSystems');
+
+    var tbIdListSystem = box.options[box.selectedIndex].value;
+
+    const listSystemRules = await fetch(`http://localhost:3333/listSystemRules/${tbIdListSystem}`);
+    const dataListSystemRules = await listSystemRules.json()
+
+    showSystemsRules(dataListSystemRules)
+
+
+  }
+
+  function showSystemsRules(systems) {
+    let output = ''
+
+    for (let system of systems) {
+
+      output += 
+     `<li>
+        <input type="checkbox" name="${system.rulename}" id="${system.idrule}">
+        <label for="${system.rulename}"">${system.rulename}</label>
+      </li>`
+
+    }
+    document.querySelector('ul').innerHTML = output
+  }
+  async function saveData() {
+    try {
+      var nome = document.getElementById('user').value
+
+      var data = {nome}
+
+      console.log(data)
+
+      const connectionUserAndRules = {
+        method: 'POST', 
+        body: JSON.stringify(data),
+        headers: {'Content-Type': 'application/json'}
+        }
+
+      const listUsersAndRules = await fetch(`http://localhost:3333/listUsersAndRules`, connectionUserAndRules)
+
+      const UserAuth = await listUsersAndRules.json();
+
+      var idSystem = document.getElementById('listSystems').value
+      
+      console.log(idSystem)
+
+      if(idSystem == 1) {
+        var id1 = document.getElementById('1').checked 
+        var id2 = document.getElementById('2').checked
+        var id3 = document.getElementById('3').checked
+        var id4 = document.getElementById('4').checked
+
+        var objSystem = [id1,id2,id3,id4]
+        var cont = 1;
+        
+        for(let i = 0; i<4; i++) {
+          if(objSystem[i] === false){
+            var dataDelete = [{fk_IdRule:cont ++, fk_idLogin: UserAuth[0].idlogin}]
+
+            const connectionDeleteLoginRules = {
+            method: 'DELETE', 
+            body: JSON.stringify(dataDelete),
+            headers: {'Content-Type': 'application/json'}
+            }
+
+            await fetch(`http://localhost:3333/deleteLoginRules`, connectionDeleteLoginRules)
+
+            console.log('Permissões retiradas')
+          } else{
+            var dataCreate = [{fk_IdRule:cont ++, fk_idLogin: UserAuth[0].idlogin}]
+
+            const connectionCreateLoginRules = {
+            method: 'POST', 
+            body: JSON.stringify(dataCreate),
+            headers: {'Content-Type': 'application/json'}
+            }
+
+            await fetch(`http://localhost:3333/createLoginRules`, connectionCreateLoginRules)
+
+            console.log('Permissões adicionadas')
+            }
+        }
+      } else if (idSystem == 2) {
+        var id5 = document.getElementById('5').checked 
+        var id6 = document.getElementById('6').checked
+        var id7 = document.getElementById('7').checked
+        var id8 = document.getElementById('8').checked
+
+        var cont = 5;
+        var objSystemId = [id5,id6,id7,id8]
+
+
+        for(let i = 0; i<4; i++) {
+          if(objSystemId[i] === false){
+            var dataDeleted = [{fk_IdRule:cont ++, fk_idLogin: UserAuth[0].idlogin}]
+
+            const connectionDeletedLoginRules = {
+            method: 'DELETE', 
+            body: JSON.stringify(dataDeleted),
+            headers: {'Content-Type': 'application/json'}
+            }
+
+            await fetch(`http://localhost:3333/deleteLoginRules`, connectionDeletedLoginRules)
+
+            console.log('Permissões retiradas')
+          } else{
+            var dataCreated = [{fk_IdRule:cont ++, fk_idLogin: UserAuth[0].idlogin}]
+
+            const connectionCreatedLoginRules = {
+            method: 'POST', 
+            body: JSON.stringify(dataCreated),
+            headers: {'Content-Type': 'application/json'}
+            }
+
+            await fetch(`http://localhost:3333/createLoginRules`, connectionCreatedLoginRules)
+
+            console.log('Permissões adicionadas')
+          }
+        }
+      }  
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  function selectAll() { 
+    
+    var idSystem = document.getElementById('listSystems').value
+
+    if(idSystem == 1){
+      document.getElementById('1').checked = 1
+      document.getElementById('2').checked = 1
+      document.getElementById('3').checked = 1
+      document.getElementById('4').checked = 1
+    } else if(idSystem == 2) {
+      document.getElementById('5').checked = 1
+      document.getElementById('6').checked = 1
+      document.getElementById('7').checked = 1
+      document.getElementById('8').checked = 1
+    }
+  }
+
+  function deselectAll() {
+    var idSystem = document.getElementById('listSystems').value
+
+    if(idSystem == 1){
+      document.getElementById('1').checked = 0
+      document.getElementById('2').checked = 0
+      document.getElementById('3').checked = 0
+      document.getElementById('4').checked = 0
+    } else if(idSystem == 2) {
+      document.getElementById('5').checked = 0
+      document.getElementById('6').checked = 0
+      document.getElementById('7').checked = 0
+      document.getElementById('8').checked = 0
+    }
+  }
+
+  getSystems();
+
+</script>

@@ -1,0 +1,25 @@
+{
+  "name": "jobtest",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "created": "ts-node-dev src/database/ddl/create.ts",
+    "insert": "ts-node-dev src/database/dml/insert.ts",
+    "select": "ts-node-dev src/database/dml/select.ts",
+    "drop": "ts-node-dev src/database/ddl/drop.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.7",
+    "@types/express": "^4.17.7",
+    "@types/pg": "^7.14.4",
+    "ts-node-dev": "^1.0.0-pre.57",
+    "typescript": "^3.9.7"
+  }
+}

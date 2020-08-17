@@ -1,0 +1,101 @@
+html{
+  width: 100%;
+  height: 100%;
+}
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: cornflowerblue;
+}
+.align {
+  width: 100%;
+  height: 100%;
+}
+.form{
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  width: 30%;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.form .nav-form {
+  background-color: #404040;
+  height:15px;
+  width: 100%;
+}
+.form .color-style {
+  background-color: whitesmoke;
+}
+
+.form .container {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  margin-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form .container .primary-inputs{
+  display: flex;
+  flex-direction: column;
+}
+
+.form .container .primary-inputs select {
+  margin-top: 5%;
+  padding: 1%;
+}
+.form .container .primary-inputs input {
+  padding: 1%;
+}
+
+.form .container .permissions {
+  margin-top: 5%;
+  background-color: #404040;
+  color: white;
+  height: 15%;
+}
+
+.form .container .permissions h4 {
+  margin: 0;
+  padding: 2%;
+}
+
+.form .container .listOptions ul {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.form .container .listOptions ul li {
+  display: flex;
+  padding: 0.5%;
+  text-decoration: none;
+  border: solid 0.5px 
+}
+
+.form .container footer {
+  display: flex;
+  width: 100%;
+  margin-left: auto;
+  justify-content: flex-end;
+  padding-bottom: 5%;
+}
+
+.form .container footer button {
+  background-color: #404040;
+  color: white;
+  padding: 2%;
+  margin-left: 2%;
+  justify-content: center;
+  align-items: center;
+  line-break: keep-all;
+  white-space: nowrap;
+  border: 0;
+  border-radius: 25px;
+}
+
