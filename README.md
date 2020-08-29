@@ -18,10 +18,10 @@
     <img alt="Home" title="Home" src="assets/home.PNG">
 </p>
 
-###  Lista de Permissões
+### Lista de Permissões
 
 <p align="center">
-    <img alt="Give-Classes" title="Give-Classes" src="img/Web/Give-Classes.PNG">
+    <img alt="Lista de Permissões" title="Lista de Permissões" src="assets/listaDePermissoes.PNG">
 </p>
 
 ## Funcionalidades
